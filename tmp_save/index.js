@@ -14,15 +14,18 @@ _files.onchange = () => {
         }).then(response => {
             if (response.ok) {
                 console.log('Successful');
-                window.alert("Successful")
+                // window.alert("Successful")
             } else {
                 console.error('Failed');
-                window.alert("Failed")
+                // window.alert("Failed")
             }
         }).catch(error => {
             console.error('ERROR: ' + error);
-            window.alert("ERROR: "+error)
+            // window.alert("ERROR: "+error)
         });
 
     });
+
+    window.alert("Finished")
+
 }
