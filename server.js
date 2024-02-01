@@ -24,28 +24,23 @@ const storage = multer.diskStorage({
         cb(null, "./data");
     },
     filename: (req, file, cb) => {
-        console.log(file)
+
+        const date = new Date();
         const ext = path.extname(file.originalname);
-        cb(null, `${file.fieldname}-${Date.now()}${ext}`);
-    },
+        console.log(file.originalname+" "+date)
+        cb(null, `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}-${date.getHours().toString().padStart(2, '0')}-${date.getMinutes().toString().padStart(2, '0')}-${date.getSeconds().toString().padStart(2, '0')}-${date.getMilliseconds().toString().padStart(3, '0')}${ext}`);
+    }
 });
 const upload = multer({ storage: storage });
 
-console.log("Tmp Saver Start");
-console.log("Port: "+config.port);
+// app.get("/test", (req, res) => {
 
-app.get("/test", (req, res) => {
+//     console.log("Test Successful");
 
-    console.log("Test Successful");
-
-    res.send("Test Successful");
-})
+//     res.send("Test Successful");
+// })
 
 app.post("/upload", upload.single("file"),(req, res) => {
-
-    console.log("Received")
-
-    console.log(res.body)
 
     const photo = req.file;
 
