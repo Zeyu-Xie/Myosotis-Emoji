@@ -1,11 +1,21 @@
 const express = require("express");
 const multer = require("multer")
 const config = require("./config.json")
+const path = require("path")
 
 // Express Server
 const app = express();
 
 // Middleware
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+  });
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -14,6 +24,7 @@ const storage = multer.diskStorage({
         cb(null, "./data");
     },
     filename: (req, file, cb) => {
+        console.log(file)
         const ext = path.extname(file.originalname);
         cb(null, `${file.fieldname}-${Date.now()}${ext}`);
     },
@@ -30,7 +41,11 @@ app.get("/test", (req, res) => {
     res.send("Test Successful");
 })
 
-app.post("/upload", upload.single("photo"),(req, res) => {
+app.post("/upload", upload.single("file"),(req, res) => {
+
+    console.log("Received")
+
+    console.log(res.body)
 
     const photo = req.file;
 
