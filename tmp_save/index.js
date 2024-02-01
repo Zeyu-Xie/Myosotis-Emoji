@@ -12,7 +12,7 @@ _files.onchange = () => {
 
         console.log(formData)
 
-        fetch('http://118.195.252.2:3000/upload', {
+        fetch('https://118.195.252.2:3000/upload', {
             method: 'POST',
             body: formData
         }).then(response => {
