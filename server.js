@@ -1,7 +1,8 @@
 const express = require("express");
-const multer = require("multer")
-const config = require("./config.json")
-const path = require("path")
+const multer = require("multer");
+const fs = require('fs');
+const path = require("path");
+const config = require("./config.json");
 
 // Express Server
 const app = express();
@@ -14,7 +15,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
-  });
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -27,20 +28,28 @@ const storage = multer.diskStorage({
 
         const date = new Date();
         const ext = path.extname(file.originalname);
-        console.log(file.originalname+" "+date)
-        cb(null, `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}-${date.getHours().toString().padStart(2, '0')}-${date.getMinutes().toString().padStart(2, '0')}-${date.getSeconds().toString().padStart(2, '0')}-${date.getMilliseconds().toString().padStart(3, '0')}${ext}`);
+
+        let log = `${date}\n`;
+        log += file.originalname + "\n"
+        log += req.ip + "\n";
+        log += "\n";
+
+        const filePath = `./log/${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}.txt`;
+
+        fs.appendFile(filePath, log, err => {
+            if (err) {
+                console.error("ERROR: "+err);
+            } else {
+                console.log("Log Added Successful");
+            }
+        });
+
+        cb(null, `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}-${date.getHours().toString().padStart(2, '0')}-${date.getMinutes().toString().padStart(2, '0')}-${date.getSeconds().toString().padStart(2, '0')}-${date.getMilliseconds().toString().padStart(3, '0')}${ext}`);
     }
 });
 const upload = multer({ storage: storage });
 
-// app.get("/test", (req, res) => {
-
-//     console.log("Test Successful");
-
-//     res.send("Test Successful");
-// })
-
-app.post("/upload", upload.single("file"),(req, res) => {
+app.post("/upload", upload.single("file"), (req, res) => {
 
     const photo = req.file;
 
