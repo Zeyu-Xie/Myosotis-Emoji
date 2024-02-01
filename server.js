@@ -20,6 +20,16 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+console.log("Tmp Saver Start");
+console.log("Port: "+config.port);
+
+app.get("/test", (req, res) => {
+
+    console.log("Test Successful");
+
+    res.send("Test Successful");
+})
+
 app.post("/upload", upload.single("photo"),(req, res) => {
 
     const photo = req.file;
