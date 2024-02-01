@@ -1,2 +1,0 @@
-# Myosotis-Emoji
-Emoji Gallery
