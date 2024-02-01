@@ -17,12 +17,12 @@ _files.onchange = () => {
             body: formData
         }).then(response => {
             if (response.ok) {
-                console.log('文件上传成功');
+                console.log('Successful');
             } else {
-                console.error('文件上传失败');
+                console.error('Failed');
             }
         }).catch(error => {
-            console.error('发生错误：', error);
+            console.error('ERROR: ' + error);
         });
 
     });
