@@ -40,7 +40,7 @@ _part_of_log.onclick = () => {
     }
 }
 _full_log.onclick = () => {
-    copyToClipboard(log);
+    copyToClipboard(log_text);
 }
 
 // Submit Form
