@@ -56,10 +56,11 @@
 
 <body>
     <header>
-        <h1 style="display: none;">Emoji Uploader</h1>
         <nav>
-            <a href="https://zeyu-xie.github.io/Myosotis-Emoji">Myosotis Emoji</a>&nbsp;>&nbsp;<a href="#">Emoji Uploader</a>
+            <a href="https://zeyu-xie.github.io/Myosotis-Emoji">Myosotis Emoji</a>&nbsp;>&nbsp;<a href="#">Emoji
+                Uploader</a>
         </nav>
+        <h1>Emoji Uploader</h1>
     </header>
 
     <form action="" id="form">
@@ -70,8 +71,8 @@
                 <input type="file" id="files" multiple>
             </p>
             <p>
-                <button id = "reset" title = "Remove All Your Uploaded Images">Reset</button>
-                <button type="submit" title = "Submit Your Chosen Images">Submit</button>
+                <button id="reset" title="Remove All Your Uploaded Images">Reset</button>
+                <button type="submit" title="Submit Your Chosen Images">Submit</button>
             </p>
             <p>⚠️ Warning</p>
             <ol>
@@ -79,9 +80,18 @@
                     <p>We have implemented restrictions on certain IP addresses to safeguard the server.</p>
                 </li>
                 <li>
-                    <p>This form only accepts images with file extensions such as jpg, jpeg, png, svg, gif, and the like.</p>
+                    <p>This form only accepts images with file extensions such as jpg, jpeg, png, svg, gif, and the
+                        like.</p>
                 </li>
             </ol>
+        </fieldset>
+        <fieldset>
+            <legend>Develop</legend>
+            <p>Select or download server log below.</p>
+            <p><input type="date" id="date"></p>
+            <p><button id="part_of_log">Part of Log</button> <button id="full_log">Full Log</button></p>
+            <p>❓ To provide feedback or report bugs, please navigate to the <a
+                    href="https://github.com/Zeyu-Xie/Myosotis-Emoji/issues">issues</a> section of this repository.</p>
         </fieldset>
     </form>
 
