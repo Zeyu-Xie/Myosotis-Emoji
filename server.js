@@ -34,11 +34,11 @@ const storage = multer.diskStorage({
         log += req.ip + "\n";
         log += "\n";
 
-        const filePath = `./log/${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}.txt`;
+        const filePath = `./log/${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}.txt`;
 
         fs.appendFile(filePath, log, err => {
             if (err) {
-                console.error("ERROR: "+err);
+                console.error("ERROR: " + err);
             } else {
                 console.log("Log Added Successful");
             }
@@ -48,6 +48,29 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
+
+app.get("/log", (req, res) => {
+
+    const folderPath = path.join(__dirname, "log");
+
+    let res_ = {};
+
+    fs.promises.readdir(folderPath).then(async (files) => {
+        res_ = { "list": files };
+        for (const log of files) {
+            try {
+                const data = await fs.promises.readFile(path.join(__dirname, "log", log), 'utf-8');
+                res_[log] = data;
+            } catch (err) {
+                console.error("ERROR: ", err);
+            }
+        }
+    }).then(() => {
+        res.json(res_)
+    }).catch((err) => {
+        res.status(500).send('Error reading folder');
+    });
+});
 
 app.post("/upload", upload.single("file"), (req, res) => {
 
