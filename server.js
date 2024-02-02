@@ -8,7 +8,6 @@ const config = require("./config.json");
 const app = express();
 
 // Middleware
-
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -79,7 +78,6 @@ app.post("/upload", upload.single("file"), (req, res) => {
     if (!photo) {
         return res.status(400).send("File Not Received");
     }
-
     res.send("Success");
 })
 
