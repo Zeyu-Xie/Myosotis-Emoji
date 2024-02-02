@@ -62,11 +62,17 @@
         </nav>
     </header>
 
-    <form action="">
+    <form action="" id="form">
         <fieldset>
             <legend>Emoji Uploader</legend>
             <p>Please upload your photo through this form.</p>
-            <input type="file" id="files" multiple>
+            <p>
+                <input type="file" id="files" multiple>
+            </p>
+            <p>
+                <button id = "reset" title = "Remove All Your Uploaded Images">Reset</button>
+                <button type="submit" title = "Submit Your Chosen Images">Submit</button>
+            </p>
             <p>⚠️ Warning</p>
             <ol>
                 <li>

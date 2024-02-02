@@ -1,6 +1,8 @@
+const _form = document.getElementById("form")
 const _files = document.getElementById("files");
+const _reset = document.getElementById("reset")
 
-_files.onchange = () => {
+_form.onsubmit = () => {
 
     Array.from(_files.files).forEach(file => {
 
@@ -26,6 +28,10 @@ _files.onchange = () => {
 
     });
 
-    window.alert("Finished")
+    // window.alert("Finished")
 
+}
+
+_reset.onclick = () => {
+    _files.files = null
 }
