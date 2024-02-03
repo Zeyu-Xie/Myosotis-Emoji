@@ -18,7 +18,7 @@ function copyToClipboard(text) {
 // Load Log
 let log_text = "";
 let log_json = "";
-fetch("http://acanxie.tech:3000/log").then(res => res.json()).then(res => {
+fetch("http://118.195.252.2:3000/log").then(res => res.json()).then(res => {
     log_json = res;
     for (let i = res.list.length - 1; i >= 0; i--) {
         item = res.list[i];
@@ -37,7 +37,7 @@ _part_of_log.onclick = () => {
         window.alert("Part of Log Copied to Clipboard")
     }
     else {
-        window.alert("No Date Selected");
+        window.alert("Date Not Selected");
     }
 }
 _full_log.onclick = () => {
@@ -57,7 +57,7 @@ _form.onsubmit = async () => {
         formData.append("file", file);
 
         fetchPromises.push(
-            fetch('http://acanxie.tech:3000/upload', {
+            fetch('http://118.195.252.2:3000/upload', {
                 method: 'POST',
                 body: formData
             }).then(response => {
