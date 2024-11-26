@@ -1,4 +1,5 @@
 import os
+import subprocess
 from datetime import datetime
 from PIL import Image
 
@@ -6,9 +7,7 @@ def heic_to_png(image_path):
     dirname = os.path.dirname(image_path)
     basename = os.path.basename(image_path)
     basename_without_ext = os.path.splitext(basename)[0]
-    ext = os.path.splitext(basename)[-1]
-    im = Image.open(image_path)
-    im.save(os.path.join(dirname, basename_without_ext+".png"), "PNG")
+    subprocess.run(f"heif-convert {image_path} {os.path.join(dirname, basename_without_ext+'.png')}", shell=True)
     os.remove(image_path)
 
 def jpg_to_png(image_path):
