@@ -3,10 +3,13 @@ import subprocess
 from datetime import datetime
 from PIL import Image
 
-special_ext_list = [".DS_Store"]
+number = 0
+success_number = 0
+error_number = 0
 
 def is_special_file(basename, ext):
-    global special_ext_list
+
+    special_ext_list = [".DS_Store"]
     if not ext.startswith("."):
         return True
     if ext in special_ext_list:
@@ -34,23 +37,26 @@ def to_png(image_path):
 
     # Skip special files
     if is_special_file(os.path.basename(image_path), ext):
-        return (False, f"Skipped {image_path}: Special file")
+        return (False, f"Skipped: Special file")
     
     # Skip if already png or gif
     if ext == ".png" or ext == ".gif":
-        return (True, f"Skipped {image_path}: Already png or gif")
+        return (True, f"Skipped: Already png or gif")
     
     # Convert to png
     if ext == ".heic":
         heic_to_png(image_path)
-        return (True, f"Converted {image_path} to png")
+        return (True, f"Converted to png")
     elif ext == ".jpg" or ext == ".jpeg":
         jpg_to_png(image_path)
-        return (True, f"Converted {image_path} to png")
+        return (True, f"Converted to png")
     else:
-        return (False, f"Skipped {image_path}: Unsupported format")
+        return (False, f"Skipped: Unsupported format")
 
 def dfs(path):
+
+    global number, success_number, error_number
+
     if not os.path.isdir(path):
         return
     else:
@@ -82,9 +88,13 @@ def dfs(path):
                 continue
 
             try:
+                number += 1
                 is_succ, result = to_png(new_path)
                 if not is_succ:
-                    print(result)
+                    error_number += 1
+                    raise Exception(result)
+                else:
+                    success_number += 1
             except Exception as e:
                 print(f"Error at {new_path}: {e}")
 
@@ -95,3 +105,5 @@ if __name__ == "__main__":
 
     dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
     dfs(dir_path)
+
+    print(f"Total: {number}, Success: {success_number}, Error: {error_number}")
