@@ -3,6 +3,16 @@ import subprocess
 from datetime import datetime
 from PIL import Image
 
+special_ext_list = [".DS_Store"]
+
+def is_special_file(basename, ext):
+    global special_ext_list
+    if not ext.startswith("."):
+        return True
+    if ext in special_ext_list:
+        return True
+    return False
+
 def heic_to_png(image_path):
     dirname = os.path.dirname(image_path)
     basename = os.path.basename(image_path)
@@ -18,6 +28,27 @@ def jpg_to_png(image_path):
     im = Image.open(image_path)
     im.save(os.path.join(dirname, basename_without_ext+".png"), "PNG")
     os.remove(image_path)
+
+def to_png(image_path):
+    ext = os.path.splitext(image_path)[-1]
+
+    # Skip special files
+    if is_special_file(os.path.basename(image_path), ext):
+        return (False, f"Skipped {image_path}: Special file")
+    
+    # Skip if already png or gif
+    if ext == ".png" or ext == ".gif":
+        return (True, f"Skipped {image_path}: Already png or gif")
+    
+    # Convert to png
+    if ext == ".heic":
+        heic_to_png(image_path)
+        return (True, f"Converted {image_path} to png")
+    elif ext == ".jpg" or ext == ".jpeg":
+        jpg_to_png(image_path)
+        return (True, f"Converted {image_path} to png")
+    else:
+        return (False, f"Skipped {image_path}: Unsupported format")
 
 def dfs(path):
     if not os.path.isdir(path):
@@ -46,13 +77,14 @@ def dfs(path):
             new_path = os.path.join(path, basename.split("_")[0]+ext)
             os.rename(old_path, new_path)
 
+            if is_special_file(basename, ext):
+                print(f"Skipped {new_path}")
+                continue
+
             try:
-                if ext == ".heic":
-                    heic_to_png(new_path)
-                    print(f"Converted {new_path} to PNG")
-                elif ext == ".jpg" or ext == ".jpeg":
-                    jpg_to_png(new_path)
-                    print(f"Converted {new_path} to PNG")
+                is_succ, result = to_png(new_path)
+                if not is_succ:
+                    print(result)
             except Exception as e:
                 print(f"Error at {new_path}: {e}")
 
