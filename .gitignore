@@ -1,2 +1,5 @@
-*.DS_Store
-*.obsidian
+# MacOS
+.DS_Store
+
+# VSCode
+.vscode
